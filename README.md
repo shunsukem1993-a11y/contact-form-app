@@ -1,0 +1,168 @@
+# COACHTECH お問い合わせフォーム
+
+後で記入
+
+## 作成者
+
+溝口　竣介
+
+## 使用技術
+
+- PHP 8.x
+- Laravel 12.x
+- MySQL 8.x
+- Docker / Laravel Sail
+- PHPUnit 11.x
+- Git / GitHub
+
+## ER図
+
+```mermaid
+erDiagram
+    users {
+        bigint id PK
+        varchar name
+        varchar email
+        timestamp email_verified_at
+        varchar password
+        varchar remember_token
+    }
+
+    categories {
+        bigint id PK
+        varchar content
+    }
+
+    contacts {
+        bigint id PK
+        bigint category_id FK
+        varchar first_name
+        varchar last_name
+        tinyint gender
+        varchar email
+        varchar tel
+        varchar address
+        varchar building
+        varchar detail
+    }
+
+    tags {
+        bigint id PK
+        varchar name
+    }
+
+    contact_tag {
+        bigint id PK
+        bigint contact_id FK
+        bigint tag_id FK
+    }
+
+    categories ||--o{ contacts : "has many"
+    contacts ||--o{ contact_tag : "has many"
+    tags ||--o{ contact_tag : "has many"
+```
+
+## 開発環境URL
+
+http://localhost
+
+## 動作環境
+
+本アプリケーションは**Docker（Laravel Sail）**を利用して動作します。
+
+## 環境構築手順
+
+1. **リポジトリをクローン**
+
+    ```bash
+    git clone 
+    ```
+
+2. **.envファイルの準備**
+    
+    .env.exampleをコピーして.envファイルを作成します。
+    ```bash
+    cp .env.example .env
+    ```
+
+3. **Composer依存パッケージのインストール**
+
+    コンテナを起動します。
+    ```bash
+    docker compose up -d
+    ```
+    Laravelコンテナ内でComposerを実行し、Composerで依存パッケージをインストールします。
+    ```bash
+    docker run --rm
+    -u "$(id -u):$(id -g)"
+    -v "$(pwd):/var/www/html"
+    -w /var/www/html
+    -e COMPOSER_CACHE_DIR=/tmp/composer_cache
+    laravelsail/php82-composer:latest
+    composer install --ignore-platform-reqs
+    ```
+    コンテナを停止します。
+    ```bash
+    docker compose down
+    ```
+
+4. **Laravel Sailの起動**
+
+    Dockerコンテナを起動します。
+    ```bash
+    ./vendor/bin/sail up -d
+    ```
+
+5. **アプリケーションキーの生成**
+
+    Laravelのアプリケーションキーを生成します。
+    ```bash
+    ./vendor/bin/sail artisan key:generate
+    ```
+
+6. **データベースのマイグレーションと初期データ投入**
+
+    テーブルを作成し、必要に応じてシーダーを実行します。
+    ```bash
+    ./vendor/bin/sail artisan migrate --seed
+    ```
+    ※シーダーを使用していない場合は、以下を実行してください。
+    ```bash
+    ./vendor/bin/sail artisan migrate
+    ```
+
+7. **フロントエンドのビルド**
+
+    Node.jsの依存パッケージをインストールし、開発用ビルドを実行します。
+    ```bash
+    ./vendor/bin/sail npm install
+    ./vendor/bin/sail npm run dev
+    ```
+
+8. **アプリケーションへのアクセス**
+
+    ブラウザで以下のURLにアクセスします。
+    ```bash
+    http://localhost
+    ```
+
+## テスト実行
+
+PHPUnitによるテストを実行する場合は、以下のコマンドを実行してください。
+```bash
+./vendor/bin/sail test
+```
+特定のテストファイルのみを実行する場合は、以下のように指定できます。
+
+- ○○を実行
+```bash
+
+```
+
+## 機能一覧
+
+- ○○
+
+## APIエンドポイント一覧
+
+本アプリケーションで提供している主なREST APIの一覧です。
