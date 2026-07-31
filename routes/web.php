@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Category;
+use App\Models\Contact;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// トップページはログイン画面へ
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
+});
+
+// 仮ルート（管理画面実装時に置き換え）
+Route::middleware('auth')->group(function () {
+
+    // 管理画面（仮）
+    Route::get('/admin', function () {
+
+        $categories = Category::all();
+        $contacts = Contact::with([
+            'category',
+            'tags',
+        ])->paginate(7);
+
+        return view('admin.index', compact('categories', 'contacts'));
+    })->name('admin.index');
+
 });
