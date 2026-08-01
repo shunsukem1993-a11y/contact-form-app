@@ -95,9 +95,9 @@ class StoreContactRequest extends FormRequest
     {
         return [
 
-            'first_name.required' => '姓を入力してください',
+            'first_name.required' => '名を入力してください',
 
-            'last_name.required' => '名を入力してください',
+            'last_name.required' => '姓を入力してください',
 
             'gender.required' => '性別を選択してください',
 

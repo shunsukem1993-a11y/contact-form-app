@@ -8,15 +8,15 @@
     </div>
     <div class="col-span-2">
         <div class="flex gap-4">
-            <input type="text" name="first_name" placeholder="例: 山田" value="{{ old('first_name') }}"
+            <input type="text" name="last_name" placeholder="例: 山田" value="{{ old('last_name') }}"
                 class="flex-1 px-4 py-3 bg-[#f5f5f5] border-0 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300" />
-            <input type="text" name="last_name" placeholder="例: 太郎" value="{{ old('last_name') }}"
+            <input type="text" name="first_name" placeholder="例: 太郎" value="{{ old('first_name') }}"
                 class="flex-1 px-4 py-3 bg-[#f5f5f5] border-0 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300" />
         </div>
-        @error('first_name')
+        @error('last_name')
             <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
         @enderror
-        @error('last_name')
+        @error('first_name')
             <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
         @enderror
     </div>
