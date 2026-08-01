@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Contact;
+use App\Models\Tag;
 
 class AdminController extends Controller
 {
@@ -11,6 +13,8 @@ class AdminController extends Controller
     public function index()
     {
         $categories = Category::all();
+
+        $tags = Tag::all();
 
         $contacts = Contact::with([
             'category',
@@ -22,7 +26,8 @@ class AdminController extends Controller
 
         return view('admin.index', compact(
             'categories',
-            'contacts'
+            'contacts',
+            'tags'
         ));
     }
 
