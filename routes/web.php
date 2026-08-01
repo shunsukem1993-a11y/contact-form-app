@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
 use App\Models\Category;
 use App\Models\Contact;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,22 +16,25 @@ use App\Models\Contact;
 |
 */
 
-// トップページはログイン画面へ
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+// お問い合わせ
+Route::get('/', [ContactController::class, 'index'])
+    ->name('contacts.index');
 
-// 仮ルート（管理画面実装時に置き換え）
+Route::post('/contacts/confirm', [ContactController::class, 'confirm'])
+    ->name('contacts.confirm');
+
+Route::post('/contacts', [ContactController::class, 'store'])
+    ->name('contacts.store');
+
+Route::get('/thanks', [ContactController::class, 'thanks'])
+    ->name('contacts.thanks');
+
+// 管理画面（仮）
 Route::middleware('auth')->group(function () {
 
-    // 管理画面（仮）
     Route::get('/admin', function () {
-
         $categories = Category::all();
-        $contacts = Contact::with([
-            'category',
-            'tags',
-        ])->paginate(7);
+        $contacts = Contact::paginate(7);
 
         return view('admin.index', compact('categories', 'contacts'));
     })->name('admin.index');
