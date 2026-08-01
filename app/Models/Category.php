@@ -10,7 +10,7 @@ class Category extends Model
 {
     use HasFactory;
 
-     /**
+    /**
      * 一括代入を許可する属性
      *
      * @var array<int, string>

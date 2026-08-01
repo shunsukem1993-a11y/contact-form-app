@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('contact_tag', function (Blueprint $table) {
             $table->id();
             $table->foreignId('contact_id')
-                  ->constrained()
-                  ->cascadeOnDelete();
+                ->constrained()
+                ->cascadeOnDelete();
             $table->foreignId('tag_id')
-                  ->constrained()
-                  ->cascadeOnDelete();
+                ->constrained()
+                ->cascadeOnDelete();
             $table->timestamps();
 
             $table->unique(['contact_id', 'tag_id']);
