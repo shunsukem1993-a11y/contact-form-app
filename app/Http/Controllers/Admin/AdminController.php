@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\IndexContactRequest;
 use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Tag;
@@ -10,16 +11,45 @@ use App\Models\Tag;
 class AdminController extends Controller
 {
     // お問い合わせ一覧表示
-    public function index()
+    public function index(IndexContactRequest $request)
     {
         $categories = Category::all();
 
         $tags = Tag::all();
 
-        $contacts = Contact::with([
+        $query = Contact::with([
             'category',
             'tags',
-        ])
+        ]);
+
+        // 名前・メール検索
+        if ($request->filled('keyword')) {
+
+            $keyword = $request->keyword;
+
+            $query->where(function ($q) use ($keyword) {
+                $q->where('first_name', 'like', "%{$keyword}%")
+                    ->orWhere('last_name', 'like', "%{$keyword}%")
+                    ->orWhere('email', 'like', "%{$keyword}%");
+            });
+        }
+
+        // 性別検索
+        if ($request->filled('gender') && $request->gender != 0) {
+            $query->where('gender', $request->gender);
+        }
+
+        // カテゴリー検索
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // 日付検索
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        $contacts = $query
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'desc')
             ->paginate(7);
