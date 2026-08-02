@@ -28,7 +28,15 @@ class ContactFactory extends Factory
             'tel' => fake()->numerify('090########'),
             'address' => fake()->address(),
             'building' => fake()->optional()->secondaryAddress(),
-            'detail' => fake()->text(120),
+            'detail' => fake()->randomElement([
+                '商品の使い方について教えてください。',
+                '注文内容を変更したいです。',
+                '配送予定日を確認したいです。',
+                '見積もりをお願いしたいです。',
+                'サービスについて詳しく知りたいです。',
+                '不具合が発生しているため対応をお願いします。',
+                '返品・交換の手続きを教えてください。',
+            ]),
         ];
     }
 
