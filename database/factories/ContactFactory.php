@@ -20,7 +20,7 @@ class ContactFactory extends Factory
     {
         return [
             //
-            'category_id' => Category::inRandomOrder()->value('id'),
+            'category_id' => Category::factory(),
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'gender' => fake()->numberBetween(1, 3),
