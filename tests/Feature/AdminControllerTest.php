@@ -30,7 +30,7 @@ class AdminControllerTest extends TestCase
     {
         $response = $this->get(route('admin.index'));
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     /** @test */
@@ -121,7 +121,7 @@ class AdminControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-            ->get('/admin?keyword=太郎');
+            ->get(route('admin.index', ['keyword' => '太郎']));
 
         $response->assertSee('太郎');
         $response->assertDontSee('次郎');
@@ -141,7 +141,7 @@ class AdminControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-            ->get('/admin?keyword=test');
+            ->get(route('admin.index', ['keyword' => 'test']));
 
         $response->assertSee('test@example.com');
         $response->assertDontSee('other@example.com');
@@ -163,7 +163,7 @@ class AdminControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-            ->get('/admin?gender=1');
+            ->get(route('admin.index', ['gender' => 1]));
 
         $response->assertSee('male@example.com');
         $response->assertDontSee('female@example.com');
@@ -186,7 +186,7 @@ class AdminControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-            ->get("/admin?category_id={$category->id}");
+            ->get(route('admin.index', ['category_id' => $category->id]));
 
         $response->assertSee('target@example.com');
         $response->assertDontSee('other@example.com');
@@ -210,7 +210,7 @@ class AdminControllerTest extends TestCase
             ]);
 
         $response = $this->actingAs($user)
-            ->get('/admin?date=2026-08-01');
+            ->get(route('admin.index', ['date' => '2026-08-01']));
 
         $response->assertSee('target@example.com');
         $response->assertDontSee('other@example.com');
@@ -237,7 +237,11 @@ class AdminControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-            ->get("/admin?keyword=太郎&gender=1&category_id={$category->id}");
+            ->get(route('admin.index', [
+                'keyword' => '太郎',
+                'gender' => 1,
+                'category_id' => $category->id,
+            ]));
 
         $response->assertSee('target@example.com');
         $response->assertDontSee('other@example.com');
@@ -249,7 +253,7 @@ class AdminControllerTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
-            ->get('/admin?gender=5');
+            ->get(route('admin.index', ['gender' => 5]));
 
         $response->assertSessionHasErrors('gender');
     }
@@ -262,7 +266,7 @@ class AdminControllerTest extends TestCase
         Contact::factory()->count(8)->create();
 
         $response = $this->actingAs($user)
-            ->get('/admin');
+            ->get(route('admin.index'));
 
         $response->assertViewHas('contacts', function ($contacts) {
             return $contacts->perPage() === 7;
@@ -281,7 +285,7 @@ class AdminControllerTest extends TestCase
             ]);
 
         $response = $this->actingAs($user)
-            ->get('/admin?keyword=太郎');
+            ->get(route('admin.index', ['keyword' => '太郎']));
 
         $response->assertStatus(200);
 
@@ -294,7 +298,7 @@ class AdminControllerTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
-            ->get('/admin');
+            ->get(route('admin.index'));
 
         $response->assertStatus(200);
     }
@@ -354,7 +358,7 @@ class AdminControllerTest extends TestCase
 
         $response = $this->get(route('admin.show', $contact));
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     /** @test */
@@ -363,7 +367,7 @@ class AdminControllerTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
-            ->get('/admin/contacts/9999');
+            ->get(route('admin.show', 9999));
 
         $response->assertStatus(404);
     }
@@ -420,7 +424,7 @@ class AdminControllerTest extends TestCase
 
         $response = $this->delete(route('admin.destroy', $contact));
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
 
         $this->assertDatabaseHas('contacts', [
             'id' => $contact->id,

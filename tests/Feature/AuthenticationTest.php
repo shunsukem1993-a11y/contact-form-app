@@ -43,7 +43,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         // Assert
-        $response->assertRedirect();
+        $response->assertRedirect(route('admin.index'));
 
         $this->assertDatabaseHas('users', [
             'name' => 'テストユーザー',
@@ -236,7 +236,7 @@ class AuthenticationTest extends TestCase
         // Assert
         $this->assertGuest();
 
-        $response->assertRedirect();
+        $response->assertRedirect(route('contacts.index'));
     }
 
     /** @test */
@@ -251,7 +251,7 @@ class AuthenticationTest extends TestCase
             ->post(route('logout'));
 
         // Assert
-        $response->assertRedirect('/');
+        $response->assertRedirect(route('contacts.index'));
     }
 
     /** @test */
@@ -267,7 +267,7 @@ class AuthenticationTest extends TestCase
         $response = $this->get(route('admin.index'));
 
         // Assert
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     /** @test */
