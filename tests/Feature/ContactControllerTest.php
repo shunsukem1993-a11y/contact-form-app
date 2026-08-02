@@ -98,6 +98,32 @@ class ContactControllerTest extends TestCase
     }
 
     /** @test */
+    public function セッションの入力内容が入力画面へ引き継がれる(): void
+    {
+        // Arrange
+        session([
+            'contact' => [
+                'first_name' => '太郎',
+                'last_name' => '山田',
+                'email' => 'test@example.com',
+                'detail' => 'セッション引き継ぎテスト',
+            ],
+        ]);
+
+        // Act
+        $response = $this->get(route('contacts.index'));
+
+        // Assert
+        $response->assertStatus(200);
+
+        // old入力値として引き継がれていることを確認
+        $response->assertSessionHasInput('first_name', '太郎');
+        $response->assertSessionHasInput('last_name', '山田');
+        $response->assertSessionHasInput('email', 'test@example.com');
+        $response->assertSessionHasInput('detail', 'セッション引き継ぎテスト');
+    }
+
+    /** @test */
     public function お問い合わせを登録できる(): void
     {
         // Arrange
@@ -143,6 +169,42 @@ class ContactControllerTest extends TestCase
                 'tag_id' => $tag->id,
             ]);
         }
+    }
+
+    /** @test */
+    public function タグ未選択でもお問い合わせを登録できる(): void
+    {
+        // Arrange
+        $category = Category::factory()->create();
+
+        $formData = [
+            'first_name' => '太郎',
+            'last_name' => '山田',
+            'gender' => 1,
+            'email' => 'test@example.com',
+            'tel' => '09012345678',
+            'address' => '東京都渋谷区',
+            'building' => 'テストビル',
+            'category_id' => $category->id,
+            'detail' => 'タグなしお問い合わせ',
+        ];
+
+        // Act
+        $response = $this->post(route('contacts.store'), $formData);
+
+        // Assert
+        $response->assertRedirect(route('contacts.thanks'));
+
+        // Contact保存確認
+        $this->assertDatabaseHas('contacts', [
+            'first_name' => '太郎',
+            'last_name' => '山田',
+            'email' => 'test@example.com',
+            'category_id' => $category->id,
+        ]);
+
+        // タグなしなので中間テーブルに保存されないことを確認
+        $this->assertDatabaseCount('contact_tag', 0);
     }
 
     /** @test */
