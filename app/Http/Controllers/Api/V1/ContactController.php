@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\IndexContactRequest;
+use App\Http\Requests\Api\V1\StoreContactRequest;
 use App\Http\Resources\ContactResource;
 use App\Models\Contact;
 
@@ -74,5 +75,27 @@ class ContactController extends Controller
         return response()->json([
             'data' => new ContactResource($contact),
         ]);
+    }
+
+    // お問い合わせ登録
+    public function store(StoreContactRequest $request)
+    {
+        $validated = $request->validated();
+
+        $tagIds = $validated['tag_ids'] ?? [];
+        unset($validated['tag_ids']);
+
+        $contact = Contact::create($validated);
+
+        $contact->tags()->attach($tagIds);
+
+        $contact->load([
+            'category',
+            'tags',
+        ]);
+
+        return response()->json([
+            'data' => new ContactResource($contact),
+        ], 201);
     }
 }

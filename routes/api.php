@@ -24,6 +24,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/contacts', [ContactController::class, 'index'])
         ->name('api.v1.contacts.index');
 
+    Route::post('/contacts', [ContactController::class, 'store'])
+        ->name('api.v1.contacts.store');
+
     Route::get('/contacts/{contact}', [ContactController::class, 'show'])
         ->name('api.v1.contacts.show');
 });
