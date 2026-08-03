@@ -25,7 +25,7 @@ class ExportContactTest extends TestCase
     }
 
     /** @test */
-    public function cs_vをダウンロードできる(): void
+    public function csvをダウンロードできる(): void
     {
         Contact::factory()->count(3)->create();
 
@@ -42,7 +42,7 @@ class ExportContactTest extends TestCase
     }
 
     /** @test */
-    public function 検索条件付きで_cs_vをダウンロードできる(): void
+    public function 検索条件付きでcsvをダウンロードできる(): void
     {
         $category = Category::factory()->create();
 
@@ -104,7 +104,7 @@ class ExportContactTest extends TestCase
     }
 
     /** @test */
-    public function cs_vフォーマットが仕様通りで出力される(): void
+    public function csvフォーマットが仕様通りで出力される(): void
     {
         $category = Category::factory()->create([
             'content' => '商品トラブル',
@@ -147,7 +147,7 @@ class ExportContactTest extends TestCase
     }
 
     /** @test */
-    public function 正しい検索条件で_cs_vを出力できる(): void
+    public function 正しい検索条件でcsvを出力できる(): void
     {
         $category = Category::factory()->create();
 
@@ -176,7 +176,7 @@ class ExportContactTest extends TestCase
     }
 
     /** @test */
-    public function 存在しないカテゴリ_i_dではバリデーションエラーになる(): void
+    public function 存在しないカテゴリIDではバリデーションエラーになる(): void
     {
         $response = $this
             ->actingAs($this->user)
