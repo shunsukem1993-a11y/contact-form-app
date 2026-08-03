@@ -29,4 +29,7 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/contacts/{contact}', [ContactController::class, 'show'])
         ->name('api.v1.contacts.show');
+
+    Route::put('/contacts/{contact}', [ContactController::class, 'update'])
+        ->name('api.v1.contacts.update');
 });
