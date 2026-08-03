@@ -41,6 +41,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/contacts/{contact}', [AdminController::class, 'destroy'])
         ->name('admin.destroy');
 
+    Route::get('/contacts/export', [ContactController::class, 'export'])
+        ->name('contacts.export');
+
     // タグ
     Route::post('/admin/tags', [TagController::class, 'store'])
         ->name('tags.store');
