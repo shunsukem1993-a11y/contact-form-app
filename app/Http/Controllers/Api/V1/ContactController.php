@@ -60,4 +60,19 @@ class ContactController extends Controller
             ],
         ]);
     }
+
+    /**
+     * お問い合わせ詳細取得
+     */
+    public function show(Contact $contact)
+    {
+        $contact->load([
+            'category',
+            'tags',
+        ]);
+
+        return response()->json([
+            'data' => new ContactResource($contact),
+        ]);
+    }
 }
