@@ -156,7 +156,7 @@ class ContactValidationTest extends TestCase
     }
 
     /** @test */
-    public function 存在しないカテゴリー_i_dの場合バリデーションエラーになる(): void
+    public function 存在しないカテゴリーIDの場合バリデーションエラーになる(): void
     {
         $data = $this->validData();
         $data['category_id'] = 9999;
@@ -190,7 +190,7 @@ class ContactValidationTest extends TestCase
     }
 
     /** @test */
-    public function 存在しないタグ_i_dの場合バリデーションエラーになる(): void
+    public function 存在しないタグIDの場合バリデーションエラーになる(): void
     {
         $data = $this->validData();
         $data['tag_ids'] = [9999];
