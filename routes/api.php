@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// 公開API（仮）
+// 公開API
 Route::prefix('v1')->group(function () {
     Route::get('/contacts', [ContactController::class, 'index'])
         ->name('api.v1.contacts.index');
@@ -32,4 +32,6 @@ Route::prefix('v1')->group(function () {
 
     Route::put('/contacts/{contact}', [ContactController::class, 'update'])
         ->name('api.v1.contacts.update');
+    Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])
+        ->name('api.v1.contacts.destroy');
 });
