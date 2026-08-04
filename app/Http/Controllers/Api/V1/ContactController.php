@@ -121,4 +121,12 @@ class ContactController extends Controller
             'data' => new ContactResource($contact),
         ]);
     }
+
+    // お問い合わせ削除
+    public function destroy(Contact $contact)
+    {
+        $contact->delete();
+
+        return response()->json(null, 204);
+    }
 }
