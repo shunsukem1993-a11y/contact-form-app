@@ -115,6 +115,16 @@ class ExportContactTest extends TestCase
             'gender' => 1,
         ]);
 
+        Contact::factory()->create([
+            'category_id' => $category->id,
+            'gender' => 2,
+        ]);
+
+        Contact::factory()->create([
+            'category_id' => $category->id,
+            'gender' => 3,
+        ]);
+
         $response = $this
             ->actingAs($this->user)
             ->get(route('contacts.export'));
@@ -136,6 +146,16 @@ class ExportContactTest extends TestCase
         // 性別
         $this->assertStringContainsString(
             '男性',
+            $content
+        );
+
+        $this->assertStringContainsString(
+            '女性',
+            $content
+        );
+
+        $this->assertStringContainsString(
+            'その他',
             $content
         );
 
@@ -176,7 +196,7 @@ class ExportContactTest extends TestCase
     }
 
     /** @test */
-    public function 存在しないカテゴリ_i_dではバリデーションエラーになる(): void
+    public function 存在しないカテゴリIDではバリデーションエラーになる(): void
     {
         $response = $this
             ->actingAs($this->user)
