@@ -1,7 +1,14 @@
 # COACHTECH お問い合わせフォーム
 
-一般ユーザーが利用する公開のお問い合わせフォームです。
-誰でもお問い合わせを送信でき、管理者はログイン後にその内容を確認・管理します。
+一般ユーザー向けのお問い合わせフォームと、管理者向け管理機能を提供するWebアプリケーションです。
+
+## 概要
+
+ユーザーはお問い合わせ内容を入力・送信することができ、
+管理者はログイン後、お問い合わせ内容の確認・検索・削除・CSVエクスポートを行うことができます。
+
+また、カテゴリ・タグ管理機能、REST API、お問い合わせデータのバリデーション、
+PHPUnitによるテストを実装しています。
 
 ## 作成者
 
@@ -10,10 +17,10 @@
 ## 使用技術
 
 - PHP 8.x
-- Laravel 12.x
+- Laravel 10.x
 - MySQL 8.x
 - Docker / Laravel Sail
-- PHPUnit 11.x
+- PHPUnit 0.x
 - Git / GitHub
 
 ## ER図
@@ -87,14 +94,14 @@ http://localhost
     ```
 
     .envのデータベース設定が以下になっていることを確認してください。
-        DB_CONNECTION=mysql
-        DB_HOST=mysql
-        DB_PORT=3306
-        DB_DATABASE=laravel
-        DB_USERNAME=sail
-        DB_PASSWORD=password
 
-
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=mysql
+    DB_PORT=3306
+    DB_DATABASE=laravel
+    DB_USERNAME=sail
+    DB_PASSWORD=password
 
 3. **Composer依存パッケージのインストール**
 
@@ -247,6 +254,7 @@ PHPUnitによるテストを実行する場合は、以下のコマンドを実�
   - お問い合わせ詳細取得API
   - お問い合わせ作成API
   - お問い合わせ更新API
+  - お問い合わせ削除API
 - データベースリレーション機能
   - CategoryとContactの1対多リレーション
   - ContactとTagの多対多リレーション
@@ -259,10 +267,10 @@ PHPUnitによるテストを実行する場合は、以下のコマンドを実�
 
 お問い合わせAPI
 
-| HTTPメソッド | URI | 概要 | 認証 |
-|--------------|-----|------|------|
-| GET | /api/v1/contacts | お問い合わせ一覧を取得（検索・ページネーション対応） | 不要 |
-| GET | /api/v1/contacts/{contact} | お問い合わせ詳細を取得（カテゴリ・タグ情報を含む） | 不要 |
-| POST | /api/v1/contacts | お問い合わせを新規作成 | 不要 |
-| PUT | /api/v1/contacts/{contact} | お問い合わせを更新 | 不要 |
-| DELETE | /api/v1/contacts/{contact} | お問い合わせを削除 | 不要 |
+| HTTPメソッド | URI | 概要 |
+|--------------|-----|------|
+| GET | /api/v1/contacts | お問い合わせ一覧を取得（検索・ページネーション対応） |
+| GET | /api/v1/contacts/{contact} | お問い合わせ詳細を取得（カテゴリ・タグ情報を含む） |
+| POST | /api/v1/contacts | お問い合わせを新規作成 |
+| PUT | /api/v1/contacts/{contact} | お問い合わせを更新 |
+| DELETE | /api/v1/contacts/{contact} | お問い合わせを削除 |
