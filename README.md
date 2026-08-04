@@ -19,8 +19,12 @@ PHPUnitによるテストを実装しています。
 - PHP 8.x
 - Laravel 10.x
 - MySQL 8.x
+- Nginx
+- Vite
+- Tailwind CSS 3.4.x
 - Docker / Laravel Sail
-- PHPUnit 0.x
+- phpMyAdmin
+- PHPUnit 10.x
 - Git / GitHub
 
 ## ER図
