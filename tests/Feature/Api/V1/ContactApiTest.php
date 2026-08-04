@@ -140,7 +140,7 @@ class ContactApiTest extends TestCase
 
         // Act
         $response = $this->getJson(
-            '/api/v1/contacts?date=' . now()->format('Y-m-d')
+            '/api/v1/contacts?date='.now()->format('Y-m-d')
         );
 
         // Assert
@@ -204,7 +204,7 @@ class ContactApiTest extends TestCase
 
         // Act
         $response = $this->getJson(
-            "/api/v1/contacts?" . http_build_query([
+            '/api/v1/contacts?'.http_build_query([
                 'keyword' => '山田',
                 'gender' => 1,
                 'category_id' => $category->id,

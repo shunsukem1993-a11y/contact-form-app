@@ -1,6 +1,7 @@
 # COACHTECH お問い合わせフォーム
 
-後で記入
+一般ユーザーが利用する公開のお問い合わせフォームです。
+誰でもお問い合わせを送信でき、管理者はログイン後にその内容を確認・管理します。
 
 ## 作成者
 
@@ -75,7 +76,7 @@ http://localhost
 1. **リポジトリをクローン**
 
     ```bash
-    git clone 
+    git clone git@github.com:shunsukem1993-a11y/contact-form-app.git
     ```
 
 2. **.envファイルの準備**
@@ -84,6 +85,16 @@ http://localhost
     ```bash
     cp .env.example .env
     ```
+
+    .envのデータベース設定が以下になっていることを確認してください。
+        DB_CONNECTION=mysql
+        DB_HOST=mysql
+        DB_PORT=3306
+        DB_DATABASE=laravel
+        DB_USERNAME=sail
+        DB_PASSWORD=password
+
+
 
 3. **Composer依存パッケージのインストール**
 
@@ -152,17 +163,106 @@ PHPUnitによるテストを実行する場合は、以下のコマンドを実�
 ```bash
 ./vendor/bin/sail test
 ```
+
 特定のテストファイルのみを実行する場合は、以下のように指定できます。
 
-- ○○を実行
+- AdminControllerTest.phpを実行
 ```bash
+./vendor/bin/sail test tests/Feature/AdminControllerTest.php
+```
 
+- AuthenticationTest.phpを実行
+```bash
+./vendor/bin/sail test tests/Feature/AuthenticationTest.php
+```
+
+- ContactControllerTest.phpを実行
+```bash
+./vendor/bin/sail test tests/Feature/ContactControllerTest.php
+```
+
+- ContactRelationTest.phpを実行
+```bash
+./vendor/bin/sail test tests/Feature/ContactRelationTest.php
+```
+
+- ContactValidationTest.phpを実行
+```bash
+./vendor/bin/sail test tests/Feature/ContactValidationTest.php
+```
+
+- ExportContactTest.phpを実行
+```bash
+./vendor/bin/sail test tests/Feature/ExportContactTest.php
+```
+
+- tests/Feature/TagControllerTest.phpを実行
+```bash
+./vendor/bin/sail test tests/Feature/TagControllerTest.php
+```
+
+- ContactApiTest.phpを実行
+```bash
+./vendor/bin/sail test tests/Feature/Api/V1/ContactApiTest.php
+```
+
+- IndexContactRequestTest.phpを実行
+```bash
+./vendor/bin/sail test tests/Unit/Requests/Api/V1/IndexContactRequestTest.php
+```
+
+- StoreContactRequestTest.phpを実行
+```bash
+./vendor/bin/sail test tests/Unit/Requests/Api/V1/StoreContactRequestTest.php
 ```
 
 ## 機能一覧
 
-- ○○
+- お問い合わせフォーム入力機能
+- お問い合わせ確認画面表示機能
+- お問い合わせ送信機能
+- サンクスページ表示機能
+- 管理者登録機能
+- ログイン・ログアウト機能
+- 認証機能（Laravel Fortify）
+- お問い合わせ一覧表示機能
+- お問い合わせ詳細表示機能
+- お問い合わせ削除機能
+- お問い合わせ検索機能
+  - キーワード検索（氏名・メール）
+  - 性別検索
+  - カテゴリ検索
+  - 日付検索
+- CSVエクスポート機能
+- カテゴリ管理機能
+  - カテゴリ設定機能
+- タグ管理機能
+  - タグ追加機能
+  - タグ編集機能
+  - タグ更新機能
+  - タグ削除機能
+- バリデーション機能（FormRequest）
+- API機能（REST API）
+  - お問い合わせ一覧取得API
+  - お問い合わせ詳細取得API
+  - お問い合わせ作成API
+  - お問い合わせ更新API
+- データベースリレーション機能
+  - CategoryとContactの1対多リレーション
+  - ContactとTagの多対多リレーション
+- 認可機能（Middleware）
+- PHPUnitによるテスト
 
 ## APIエンドポイント一覧
 
 本アプリケーションで提供している主なREST APIの一覧です。
+
+お問い合わせAPI
+
+| HTTPメソッド | URI | 概要 | 認証 |
+|--------------|-----|------|------|
+| GET | /api/v1/contacts | お問い合わせ一覧を取得（検索・ページネーション対応） | 不要 |
+| GET | /api/v1/contacts/{contact} | お問い合わせ詳細を取得（カテゴリ・タグ情報を含む） | 不要 |
+| POST | /api/v1/contacts | お問い合わせを新規作成 | 不要 |
+| PUT | /api/v1/contacts/{contact} | お問い合わせを更新 | 不要 |
+| DELETE | /api/v1/contacts/{contact} | お問い合わせを削除 | 不要 |

@@ -362,7 +362,7 @@ class AdminControllerTest extends TestCase
     }
 
     /** @test */
-    public function 存在しないお問い合わせIDの場合404になる(): void
+    public function 存在しないお問い合わせ_i_dの場合404になる(): void
     {
         $user = User::factory()->create();
 

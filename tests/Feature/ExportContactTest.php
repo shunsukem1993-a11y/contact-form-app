@@ -196,7 +196,7 @@ class ExportContactTest extends TestCase
     }
 
     /** @test */
-    public function 存在しないカテゴリIDではバリデーションエラーになる(): void
+    public function 存在しないカテゴリ_i_dではバリデーションエラーになる(): void
     {
         $response = $this
             ->actingAs($this->user)
