@@ -82,8 +82,13 @@ http://localhost
 
 1. **リポジトリをクローン**
 
+    リポジトリをクローンします。
     ```bash
     git clone git@github.com:shunsukem1993-a11y/contact-form-app.git
+    ```
+    クローンしたプロジェクトディレクトリに移動します。
+    ```bash
+    cd contact-form-app
     ```
 
 2. **.envファイルの準備**
@@ -111,12 +116,12 @@ http://localhost
     ```
     Laravelコンテナ内でComposerを実行し、Composerで依存パッケージをインストールします。
     ```bash
-    docker run --rm
-    -u "$(id -u):$(id -g)"
-    -v "$(pwd):/var/www/html"
-    -w /var/www/html
-    -e COMPOSER_CACHE_DIR=/tmp/composer_cache
-    laravelsail/php82-composer:latest
+    docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    -e COMPOSER_CACHE_DIR=/tmp/composer_cache \
+    laravelsail/php82-composer:latest \
     composer install --ignore-platform-reqs
     ```
     コンテナを停止します。
